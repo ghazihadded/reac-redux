@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import '../App.css'
 import { connect } from 'react-redux';
+
 import Delete from './Delete'
 import Modification from'./Modification'
 
+import '../App.css'
 
-function TodosList({ todos,dispatch }) {
+
+function TodosList({ todos,todo,dispatch }) {
   const [text,setText]=useState()
-  
+
+ 
   const edit=(id)=>{
    
     const add=todos.map(el=>{
@@ -24,28 +27,28 @@ function TodosList({ todos,dispatch }) {
 
     return (
         <div >
-            {todos.map(el => {
-                return (
-                    <div className="list" key={el.id}>
-                       <h2  className={el.isDone?"line":""}>{el.description}</h2>
-                      {el.edit&&
+            
+                
+                    <div className="list" key={todo.id}>
+                       <h2  className={todo.isDone?"line":""}>{todo.description}</h2>
+                      {todo.edit&&
                       <form onSubmit={(e)=>{e.preventDefault();
-                      action(edit(el.id));
+                      action(edit(todo.id));
                       setText("")
                       }}>
-                      <input onChange={(e)=>setText(e.target.value)} value={text} type='text' placeholder='....' />
+                      <input onChange={(e)=>setText(e.target.value)} value={text} required type='text' placeholder='....' />
                       </form>
                       }
                         <div>
-                           <Delete id={el.id} done={el.isDone} />
-                           <Modification id={el.id} modif={el.edit}/>
+                           <Delete id={todo.id} done={todo.isDone} />
+                           <Modification id={todo.id} modif={todo.edit}/>
                         </div>
                     </div>
-                )
-            }
-
-            )}
+                
             
+
+            
+       
 
         </div>
     )
@@ -53,13 +56,6 @@ function TodosList({ todos,dispatch }) {
 
 }
 
-const mapStateTProps = state => {
 
-    return (
-        {
-            todos: state.todos
-        }
-    )
-}
 
-export default connect(mapStateTProps)(TodosList);
+export default connect()(TodosList);
